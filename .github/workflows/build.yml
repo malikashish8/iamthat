@@ -1,5 +1,7 @@
 name: Publish New Version
-on: [push]
+on: 
+  release:
+    types: [created]
 jobs:
   releases-matrix:
     name: Release Go Binary
@@ -14,7 +16,6 @@ jobs:
         github_token: ${{ secrets.RELEASE_PAT }}
         goos: ${{ matrix.goos }}
         goarch: amd64
-        release_tag: "1.0.0"
         binary_name: "iamthat"
         extra_files: README.md
         
