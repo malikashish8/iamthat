@@ -7,10 +7,18 @@ import (
 )
 
 type ProfileStruct struct {
-	Profile []struct {
-		Name          string
-		GitUserConfig string `yaml:"git-user-config"`
-		SshUserConfig string `yaml:"ssh-user-config"`
+	Profile struct {
+		ConfigTemplate []struct {
+			Name   string
+			ToPath string `yaml:"to-path"`
+		} `yaml:"config-template"`
+		Config []struct {
+			Name       string
+			ConfigFile []struct {
+				Type     string
+				FromPath string `yaml:"from-path"`
+			} `yaml:"config-file"`
+		}
 	}
 }
 

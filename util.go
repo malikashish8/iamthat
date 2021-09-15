@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -61,7 +62,7 @@ func CopyFile(src string, dest string) {
 		if err == nil {
 			errWrite := ioutil.WriteFile(destPath, bytesRead, 0600)
 			if errWrite != nil {
-				log.Error("Error writing file " + srcPath)
+				log.Error("Error writing file " + destPath)
 			}
 		} else {
 			log.Error("Error reading file " + srcPath)
@@ -78,4 +79,42 @@ func CopyFile(src string, dest string) {
 func ResolvePathInConfig(configFolder string, relativePath string) string {
 	absolutePath := filepath.Join(ResolvePath(configFolder), relativePath)
 	return absolutePath
+}
+
+// Get the name of Profile currently used from `currentProfileFile`
+// If the file is not found then error is returned
+func ReadCurrentProfile(configFolder string, currentProfileFile string) (string, error) {
+	profilePath := filepath.Join(ResolvePath(configFolder), currentProfileFile)
+	data, err := os.ReadFile(profilePath)
+	if err == nil {
+		log.Debug("Current Profile: " + string(data))
+		return string(data), nil
+	}
+	return "", err
+}
+
+// Save `profileName` in `currentProfileFile` in `configFolder`
+// If config folder does not exist it is created
+func SaveNewProfile(configFolder string, currentProfileFile string, profileName string) error {
+	configFolder = ResolvePath(configFolder)
+	profilePath := filepath.Join(configFolder, currentProfileFile)
+	// check if config folder exits
+	if _, err := os.Stat(configFolder); os.IsNotExist(err) {
+		err := os.MkdirAll(configFolder, 0711)
+		if err == nil {
+			return err
+		}
+	}
+	errWrite := ioutil.WriteFile(profilePath, []byte(profileName), 0600)
+	return errWrite
+}
+
+// Look up to-path for a given config-file type
+func LookupToPath(profileStruct ProfileStruct, typeName string) (string, error) {
+	for i := 0; i < len(profileStruct.Profile.ConfigTemplate); i++ {
+		if typeName == profileStruct.Profile.ConfigTemplate[i].Name {
+			return profileStruct.Profile.ConfigTemplate[i].ToPath, nil
+		}
+	}
+	return "", errors.New("to-path not found for " + typeName)
 }
