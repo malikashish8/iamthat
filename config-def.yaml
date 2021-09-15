@@ -1,0 +1,5 @@
+config-def:
+- name: "git-user-config"
+  path: "~/.gitconfig"
+- name: "ssh-user-config"
+  path: "~/.ssh/config"
