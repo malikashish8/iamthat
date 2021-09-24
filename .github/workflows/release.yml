@@ -10,9 +10,6 @@ jobs:
   build:
     name: Create Release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        goos: [linux, windows, darwin]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,8 +17,21 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.17.1' # The Go version to download (if necessary) and use.
-      - name: Run build
-        run: go build .
+      - name: Run build for Mac
+        run: GOOS=darwin GOARCH=amd64 go build . -o build/iamthat-$GOOS-$GOARCH
+        env:
+          GOOS: darwin
+          GOARCH: amd64
+      - name: Run build for Linux
+        run: GOOS=darwin GOARCH=amd64 go build . -o build/iamthat-$GOOS-$GOARCH
+        env:
+          GOOS: linux
+          GOARCH: amd64
+      - name: Run build for Windows
+        run: GOOS=darwin GOARCH=amd64 go build . -o build/iamthat-$GOOS-$GOARCH
+        env:
+          GOOS: windows
+          GOARCH: amd64
       - uses: "marvinpinto/action-automatic-releases@latest"
         id: create_release
         with:
@@ -38,15 +48,11 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./iamthat
-          asset_name: aimthat-${{ env.RELEASE_NAME }}
+          asset_path: ./build/iamthat-$GOOS-$GOARCH
+          asset_name: aimthat-$GOOS-$GOARCH-${{ env.RELEASE_NAME }}
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      - uses: wangyoucao577/go-release-action@v1.20
-        with:
-          github_token: ${{ secrets.RELEASE_PAT }}
-          goos: ${{ matrix.goos }}
-          goarch: amd64
-          binary_name: "iamthat"
-          extra_files: README.md
+          GOOS: darwin
+          GOARCH: amd64
+
