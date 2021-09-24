@@ -22,6 +22,7 @@ jobs:
         env:
           GOOS: darwin
           GOARCH: amd64
+          GO111MODULE: "off"
       - name: Run build for Linux
         run: GOOS=darwin GOARCH=amd64 go build . -o build/iamthat-$GOOS-$GOARCH
         env:
