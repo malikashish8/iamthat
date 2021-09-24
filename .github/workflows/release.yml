@@ -24,7 +24,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          files: ["README.md"]
+          files: [ "README.md" ]
       # - name: Create Release
       #   id: create_release
       #   uses: actions/create-release@v1
