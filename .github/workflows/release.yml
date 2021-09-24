@@ -32,12 +32,12 @@ jobs:
         env:
           GOOS: windows
           GOARCH: amd64
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        id: create_release
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          files: "README.md"
+      # - uses: "marvinpinto/action-automatic-releases@latest"
+      #   id: create_release
+      #   with:
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     prerelease: false
+      #     files: "README.md"
       - name: Print output
         run: |
           echo "Output automatic_release_tag ${{ steps.create_release.outputs.automatic_releases_tag }}"
