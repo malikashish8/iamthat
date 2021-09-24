@@ -42,5 +42,5 @@ jobs:
           asset_path: ./iamthat
           asset_name: aimthat-${{ github.ref }}
           asset_content_type: application/octet-stream
-          env:
-            GITHUB_TOKEN: ${{ github.token }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
