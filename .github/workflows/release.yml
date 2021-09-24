@@ -10,6 +10,9 @@ jobs:
   build:
     name: Create Release
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -25,17 +28,6 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: "README.md"
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: Release ${{ github.ref }}
-      #     body: ${{ github.event.commits[0].message }}
-      #     draft: false
-      #     prerelease: false
       - name: Print output
         run: |
           echo "Output automatic_release_tag ${{ steps.create_release.outputs.automatic_releases_tag }}"
@@ -51,3 +43,10 @@ jobs:
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - uses: wangyoucao577/go-release-action@v1.20
+        with:
+          github_token: ${{ secrets.RELEASE_PAT }}
+          goos: ${{ matrix.goos }}
+          goarch: amd64
+          binary_name: "iamthat"
+          extra_files: README.md
