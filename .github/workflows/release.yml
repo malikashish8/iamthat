@@ -19,11 +19,12 @@ jobs:
           go-version: '1.17.1' # The Go version to download (if necessary) and use.
       - name: Run build
         run: go build .
-      - uses: ncipollo/release-action@v1
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        id: create_release
         with:
-          bodyFile: "README.md"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: ["README.md"]
       # - name: Create Release
       #   id: create_release
       #   uses: actions/create-release@v1
