@@ -41,3 +41,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./iamthat
           asset_name: aimthat-${{ github.ref }}
+          asset_content_type: application/octet-stream
