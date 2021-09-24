@@ -18,18 +18,17 @@ jobs:
         with:
           go-version: '1.17.1' # The Go version to download (if necessary) and use.
       - name: Run build for Mac
-        run: GOOS=darwin GOARCH=amd64 go build . -o build/iamthat-$GOOS-$GOARCH
+        run: GOOS=darwin GOARCH=amd64 go build -o build/iamthat-$GOOS-$GOARCH .
         env:
           GOOS: darwin
           GOARCH: amd64
-          GO111MODULE: "off"
       - name: Run build for Linux
-        run: GOOS=darwin GOARCH=amd64 go build . -o build/iamthat-$GOOS-$GOARCH
+        run: GOOS=darwin GOARCH=amd64 go build -o build/iamthat-$GOOS-$GOARCH .
         env:
           GOOS: linux
           GOARCH: amd64
       - name: Run build for Windows
-        run: GOOS=darwin GOARCH=amd64 go build . -o build/iamthat-$GOOS-$GOARCH
+        run: GOOS=darwin GOARCH=amd64 go build -o build/iamthat-$GOOS-$GOARCH .
         env:
           GOOS: windows
           GOARCH: amd64
