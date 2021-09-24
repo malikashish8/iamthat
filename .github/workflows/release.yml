@@ -34,7 +34,7 @@ jobs:
         run: |
           echo "Output automatic_release_tag ${{ steps.create_release.outputs.automatic_releases_tag }}"
           echo "Output upload_url ${{ steps.create_release.outputs.upload_url }}"
-          echo "::set-env name=RELEASE_NAME::$( echo ${{ github.ref }} | grep -o 'v[{0-9}\.]*' )"
+          echo "RELEASE_NAME=$( echo ${{ github.ref }} | grep -o 'v[{0-9}\.]*' )" >> $GITHUB_ENV
       - name: Upload asset to github release page
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
