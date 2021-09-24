@@ -19,17 +19,22 @@ jobs:
           go-version: '1.17.1' # The Go version to download (if necessary) and use.
       - name: Run build
         run: go build .
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: ${{ github.event.commits[0].message }}
-          draft: false
-          prerelease: false
+          bodyFile: "README.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     release_name: Release ${{ github.ref }}
+      #     body: ${{ github.event.commits[0].message }}
+      #     draft: false
+      #     prerelease: false
       - name: Print output
         run: |
           echo "Output automatic_release_tag ${{ steps.create_release.outputs.automatic_releases_tag }}"
