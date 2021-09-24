@@ -13,11 +13,11 @@ import (
 func ResolvePath(somepath string) string {
 	trimmed := strings.TrimSpace(somepath)
 	absolutePath := trimmed
-	if strings.HasPrefix(trimmed, "~/") {
+	if strings.HasPrefix(trimmed, "~") {
 		localOnly := trimmed[2:]
 		userHomeDir, _ := os.UserHomeDir()
 		absolutePath = filepath.Join(userHomeDir, localOnly)
-	} else if !strings.HasPrefix(trimmed, "/") {
+	} else if !strings.HasPrefix(trimmed, "/") && !strings.Contains(trimmed, ":") {
 		wd, err := os.Getwd()
 		if err == nil {
 			absolutePath = filepath.Join(wd, trimmed)

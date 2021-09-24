@@ -23,6 +23,7 @@ func main() {
 	})
 
 	configPath := ResolvePathInConfig(configFolder, profilePath)
+	log.Debugf("Using config path: %v\n", configPath)
 	ReadYaml(configPath)
 	profileStruct, err := ReadYaml(configPath)
 	if err == nil {
