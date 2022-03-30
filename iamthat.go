@@ -35,7 +35,7 @@ func main() {
 	}
 }
 
-// Check which of the profiles is in use and swith to the other
+// Check which of the profiles is in use and switch to the other
 // If none of the profiles matches then the user is prompted to select a profile
 func checkAndSwitch(profileStruct ProfileStruct) {
 	currentIndex, err := check(profileStruct)
